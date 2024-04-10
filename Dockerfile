@@ -17,7 +17,7 @@ RUN go build -ldflags "-s -w" -o /app/aurora .
 
 # 使用 Alpine Linux 作为最终镜像
 # FROM alpine:3.18.6
-FROM ubuntu:latest
+FROM nginx:latest
 
 # 设置工作目录
 WORKDIR /app
