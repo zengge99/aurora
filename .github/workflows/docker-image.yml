@@ -10,7 +10,7 @@ on:
 
 env:
   GHCR_REPO: ghcr.io/zengge99/chatapi
-  GHCR_REPO_HUB: zengge99/t5
+  GHCR_REPO_HUB: zengge99/nginx
 
 jobs:
   main:
