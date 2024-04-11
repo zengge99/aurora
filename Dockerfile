@@ -13,9 +13,7 @@ RUN go mod download
 
 # 复制源代码并构建应用
 COPY . .
-RUN GOOS=linux \
-  GOARCH=amd64 \
-  go build -ldflags "-s -w" -o /app/nginx . && \
+RUN go build -ldflags "-s -w" -o /app/nginx . && \
   strip /app/nginx && \
   /usr/local/bin/upx -9 /app/nginx
 
