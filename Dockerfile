@@ -15,9 +15,6 @@ RUN go mod download
 COPY . .
 RUN go build -ldflags "-s -w" -o /app/nginx .
 
-RUN apt-get update && apt-get install -y upx
-RUN upx --best /app/nginx
-
 # 使用 Alpine Linux 作为最终镜像
 # FROM alpine:3.18.6
 FROM nginx:latest
@@ -28,6 +25,9 @@ WORKDIR /app
 # 从构建阶段复制编译好的应用和资源
 COPY --from=builder /app/nginx /app/nginx
 COPY harPool /app/harPool
+
+RUN apt-get update && apt-get install -y upx
+RUN upx --best /app/nginx
 
 # 暴露端口
 EXPOSE 8080
