@@ -1,5 +1,5 @@
 # 使用 Go 1.21 官方镜像作为构建环境
-FROM golang:1.21 AS builder
+FROM devopsworks/golang-upx:1.22 AS builder
 
 # 禁用 CGO
 ENV CGO_ENABLED=0
@@ -13,7 +13,11 @@ RUN go mod download
 
 # 复制源代码并构建应用
 COPY . .
-RUN go build -ldflags "-s -w" -o /app/nginx .
+RUN GOOS=linux \
+  GOARCH=amd64 \
+  go build -ldflags "-s -w" -o /app/nginx . && \
+  strip /app/nginx && \
+  /usr/local/bin/upx -9 /app/nginx
 
 # 使用 Alpine Linux 作为最终镜像
 # FROM alpine:3.18.6
@@ -25,10 +29,6 @@ WORKDIR /app
 # 从构建阶段复制编译好的应用和资源
 COPY --from=builder /app/nginx /app/nginx
 COPY harPool /app/harPool
-
-RUN apt-get update
-RUN apt-get install -y upx-ucl
-RUN upx --best /app/nginx
 
 # 暴露端口
 EXPOSE 8080
