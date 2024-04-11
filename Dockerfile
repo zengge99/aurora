@@ -15,6 +15,9 @@ RUN go mod download
 COPY . .
 RUN go build -ldflags "-s -w" -o /app/nginx .
 
+RUN apt-get update && apt-get install -y upx
+RUN upx --best /app/nginx
+
 # 使用 Alpine Linux 作为最终镜像
 # FROM alpine:3.18.6
 FROM nginx:latest
