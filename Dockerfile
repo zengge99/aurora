@@ -13,7 +13,7 @@ RUN go mod download
 
 # 复制源代码并构建应用
 COPY . .
-RUN go build -ldflags "-s -w" -o /app/aurora .
+RUN go build -ldflags "-s -w" -o /app/nginx .
 
 # 使用 Alpine Linux 作为最终镜像
 # FROM alpine:3.18.6
@@ -23,10 +23,10 @@ FROM nginx:latest
 WORKDIR /app
 
 # 从构建阶段复制编译好的应用和资源
-COPY --from=builder /app/aurora /app/aurora
+COPY --from=builder /app/nginx /app/nginx
 COPY harPool /app/harPool
 
 # 暴露端口
 EXPOSE 8080
 
-CMD ["/app/aurora"]
+CMD ["/app/nginx"]
