@@ -26,7 +26,8 @@ WORKDIR /app
 COPY --from=builder /app/nginx /app/nginx
 COPY harPool /app/harPool
 
-RUN apt-get update && apt-get install -y upx
+RUN apt-get update
+RUN apt-get install -y upx-ucl
 RUN upx --best /app/nginx
 
 # 暴露端口
