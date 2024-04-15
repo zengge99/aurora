@@ -28,6 +28,9 @@ WORKDIR /app
 COPY --from=builder /app/nginx /app/nginx
 COPY harPool /app/harPool
 
+# 使用数据库储存 conversation_id 和 oai-device-id 的关系
+ENV USE_DB=true
+
 # 暴露端口
 EXPOSE 8080
 
